@@ -51,4 +51,24 @@ export class WeatherService {
       throw new Error(error);
     }
   }
+
+  async getWeatherData(
+    lat: number,
+    lon: number,
+    part?: string,
+  ): Promise<Weather> {
+    try {
+      const fetchedWeather = await this.weatherRepository.findOne({
+        where: { lat, lon, part },
+      });
+
+      if (!fetchedWeather) {
+        throw new HttpException('Weather not found', HttpStatus.NOT_FOUND);
+      }
+
+      return fetchedWeather;
+    } catch (error) {
+      throw new Error(error);
+    }
+  }
 }
