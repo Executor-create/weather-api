@@ -21,7 +21,7 @@ export class WeatherService {
 
       return await this.weatherRepository.save(weather);
     } catch (error) {
-      throw new Error(error);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -44,11 +44,18 @@ export class WeatherService {
         `https://api.openweathermap.org/data/3.0/onecall?lat=${lat}&lon=${lon}&exclude=${part}&appid=${apiKey}`,
       );
 
+      if (!response.ok) {
+        throw new HttpException(
+          'Failed to fetch weather data',
+          HttpStatus.BAD_GATEWAY,
+        );
+      }
+
       const weatherData = await response.json();
 
       return weatherData;
     } catch (error) {
-      throw new Error(error);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 
@@ -59,7 +66,7 @@ export class WeatherService {
   ): Promise<Weather> {
     try {
       const fetchedWeather = await this.weatherRepository.findOne({
-        where: { lat, lon, part },
+        where: { lat, lon, part: part || undefined },
       });
 
       if (!fetchedWeather) {
@@ -68,7 +75,7 @@ export class WeatherService {
 
       return fetchedWeather;
     } catch (error) {
-      throw new Error(error);
+      throw new HttpException(error.message, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
 }
