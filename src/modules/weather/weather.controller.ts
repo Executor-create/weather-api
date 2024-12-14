@@ -2,6 +2,8 @@ import {
   Body,
   Controller,
   Get,
+  HttpException,
+  HttpStatus,
   Post,
   Query,
   UseInterceptors,
@@ -18,10 +20,17 @@ export class WeatherController {
   async fetchAndSaveWeatherData(
     @Body() createWeatherDto: CreateWeatherDto,
   ): Promise<Record<string, any>> {
-    const weatherData =
-      await this.weatherService.saveWeatherData(createWeatherDto);
+    try {
+      const weatherData =
+        await this.weatherService.saveWeatherData(createWeatherDto);
 
-    return weatherData;
+      return weatherData;
+    } catch (error) {
+      throw new HttpException(
+        'Failed to save weather data',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 
   @Get()
@@ -31,12 +40,19 @@ export class WeatherController {
     @Query('lon') lon: number,
     @Query('part') part?: string,
   ): Promise<Record<string, any>> {
-    const weatherData = await this.weatherService.getWeatherData(
-      lat,
-      lon,
-      part,
-    );
+    try {
+      const weatherData = await this.weatherService.getWeatherData(
+        lat,
+        lon,
+        part,
+      );
 
-    return weatherData;
+      return weatherData;
+    } catch (error) {
+      throw new HttpException(
+        'Failed to fetch weather data',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
   }
 }
