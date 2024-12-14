@@ -28,6 +28,10 @@ export class Weather {
 
   @Column({ type: 'varchar' })
   @IsString()
+  part: string;
+
+  @Column({ type: 'varchar' })
+  @IsString()
   timezone: string;
 
   @Column({ type: 'int' })
