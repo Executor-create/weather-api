@@ -7,7 +7,8 @@ import { Weather } from './entities/weather.entity';
 @Injectable()
 export class WeatherService {
   constructor(
-    @InjectRepository(Weather) private weatherRepository: Repository<Weather>,
+    @InjectRepository(Weather)
+    private readonly weatherRepository: Repository<Weather>,
   ) {}
 
   async saveWeatherData(createWeatherDto: CreateWeatherDto): Promise<Weather> {
