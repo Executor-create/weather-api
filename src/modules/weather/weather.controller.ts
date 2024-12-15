@@ -10,7 +10,7 @@ import {
 } from '@nestjs/common';
 import { CreateWeatherDto } from './dto/create-weather.dto';
 import { WeatherService } from './weather.service';
-import { FormatWeatherInterceptor } from 'src/common/interceptors/format-weather.interceptor';
+import { FormatWeatherInterceptor } from '../../common/interceptors/format-weather.interceptor';
 
 @Controller('weathers')
 export class WeatherController {
