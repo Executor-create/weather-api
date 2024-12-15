@@ -23,5 +23,5 @@ export class CreateWeatherDto {
   @IsString()
   @IsNotEmpty()
   @IsOptional()
-  part: string;
+  part?: string;
 }
