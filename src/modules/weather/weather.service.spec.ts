@@ -139,10 +139,10 @@ describe('WeatherService', () => {
 
       mockWeatherRepository.findOne.mockResolvedValue(mockWeather);
 
-      const result = await service.getWeatherData(50, 120);
+      const result = await service.getWeatherData(50, 120, null);
 
       expect(mockWeatherRepository.findOne).toHaveBeenCalledWith({
-        where: { lat: 50, lon: 120 },
+        where: { lat: 50, lon: 120, part: null },
       });
       expect(result).toEqual(mockWeather);
     });
