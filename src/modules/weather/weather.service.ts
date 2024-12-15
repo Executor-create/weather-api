@@ -3,6 +3,7 @@ import { CreateWeatherDto } from './dto/create-weather.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Weather } from './entities/weather.entity';
+import { WeatherData } from 'src/types/weather-data';
 
 @Injectable()
 export class WeatherService {
@@ -11,7 +12,9 @@ export class WeatherService {
     private readonly weatherRepository: Repository<Weather>,
   ) {}
 
-  async saveWeatherData(createWeatherDto: CreateWeatherDto): Promise<Weather> {
+  async saveWeatherData(
+    createWeatherDto: CreateWeatherDto,
+  ): Promise<WeatherData> {
     try {
       const { lat, lon, part } = createWeatherDto;
 
@@ -30,7 +33,7 @@ export class WeatherService {
     lat: number,
     lon: number,
     part: string,
-  ): Promise<Weather> {
+  ): Promise<WeatherData> {
     try {
       const apiKey = process.env.WEATHER_API_KEY;
 
@@ -64,7 +67,7 @@ export class WeatherService {
     lat: number,
     lon: number,
     part?: string,
-  ): Promise<Weather> {
+  ): Promise<WeatherData> {
     try {
       const fetchedWeather = await this.weatherRepository.findOne({
         where: { lat, lon, part: part || undefined },
