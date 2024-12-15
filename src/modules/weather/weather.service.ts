@@ -32,7 +32,7 @@ export class WeatherService {
   async fetchWeatherData(
     lat: number,
     lon: number,
-    part: string,
+    part?: string,
   ): Promise<WeatherData> {
     try {
       const apiKey = process.env.WEATHER_API_KEY;
