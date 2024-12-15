@@ -26,7 +26,7 @@ export class Weather {
   @Max(180)
   lon: number;
 
-  @Column({ type: 'varchar' })
+  @Column({ type: 'varchar', nullable: true })
   @IsString()
   part: string;
 
