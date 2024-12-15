@@ -16,7 +16,7 @@ export class WeatherService {
     createWeatherDto: CreateWeatherDto,
   ): Promise<WeatherData> {
     try {
-      const { lat, lon, part } = createWeatherDto;
+      const { lat, lon, part = null } = createWeatherDto;
 
       const fetchedWeather = await this.fetchWeatherData(lat, lon, part);
       fetchedWeather.createdAt = new Date();
@@ -70,7 +70,7 @@ export class WeatherService {
   ): Promise<WeatherData> {
     try {
       const fetchedWeather = await this.weatherRepository.findOne({
-        where: { lat, lon, part: part || undefined },
+        where: { lat, lon, part: part || null },
       });
 
       if (!fetchedWeather) {
